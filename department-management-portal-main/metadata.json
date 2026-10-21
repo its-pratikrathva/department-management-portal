@@ -1,0 +1,6 @@
+{
+  "name": "Department Management Portal",
+  "description": "A professional, responsive college department management portal featuring a student dashboard, smart timetable, attendance tracker, internal marks & results, and faculty directory.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

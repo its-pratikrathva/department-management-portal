@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Internal Marks &amp; Results · Department Management Portal</title>
+  <meta name="description" content="College Department Internal Marks and Academic Results - Component scores, evaluations, and grading analytics.">
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Bootstrap 5 & Bootstrap Icons CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+  
+  <!-- Portal Stylesheets -->
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/dashboard.css">
+  <link rel="stylesheet" href="../css/responsive.css">
+</head>
+<body>
+
+  <!-- Demo Notice Banner -->
+  <div class="demo-banner">
+    <div>
+      <i class="bi bi-info-circle-fill me-1"></i>
+      <strong>Frontend Demonstration Scope:</strong> Internal marks, maximum point limits, and grading rubrics are simulated for academic demonstration.
+    </div>
+    <div>
+      <a href="#" id="menuSettingsBtn" class="text-decoration-none">
+        <i class="bi bi-sliders me-1"></i>Demo Settings
+      </a>
+    </div>
+  </div>
+
+  <div class="app-layout">
+    <!-- Sidebar Navigation -->
+    <aside class="app-sidebar" aria-label="Main Navigation">
+      <div class="sidebar-header">
+        <div class="department-crest">
+          <i class="bi bi-mortarboard-fill"></i>
+        </div>
+        <div class="brand-text-lockup">
+          <span class="brand-title">Dept Portal</span>
+          <span class="brand-dept">Computer Science &amp; Eng.</span>
+        </div>
+      </div>
+
+      <nav class="sidebar-nav">
+        <div class="sidebar-category-label">Academic Portal</div>
+        <a href="../index.html" class="sidebar-nav-link">
+          <i class="bi bi-grid-1x2-fill"></i>
+          <span>Dashboard</span>
+        </a>
+        <a href="timetable.html" class="sidebar-nav-link">
+          <i class="bi bi-calendar3"></i>
+          <span>Smart Timetable</span>
+        </a>
+        <a href="attendance.html" class="sidebar-nav-link">
+          <i class="bi bi-check2-square"></i>
+          <span>Attendance Tracker</span>
+        </a>
+        <a href="results.html" class="sidebar-nav-link active">
+          <i class="bi bi-bar-chart-line"></i>
+          <span>Internal Marks &amp; Results</span>
+        </a>
+        <a href="faculty.html" class="sidebar-nav-link">
+          <i class="bi bi-person-lines-fill"></i>
+          <span>Faculty &amp; Directory</span>
+        </a>
+
+        <div class="sidebar-category-label">Quick Links</div>
+        <a href="timetable.html?view=today" class="sidebar-nav-link">
+          <i class="bi bi-clock-history"></i>
+          <span>Today's Classes</span>
+        </a>
+        <div class="sidebar-category-label">Access &amp; Roles</div>
+        <a href="login.html" class="sidebar-nav-link">
+          <i class="bi bi-person-workspace"></i>
+          <span>Faculty Login</span>
+        </a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="fw-semibold text-white mb-1">Academic Year 2026–27</div>
+        <div class="text-muted small">Semester 5 · Undergrad</div>
+      </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="app-main">
+      <!-- Topbar Header -->
+      <header class="app-topbar">
+        <div class="topbar-left">
+          <button type="button" class="sidebar-toggle-btn" aria-label="Toggle navigation drawer">
+            <i class="bi bi-list"></i>
+          </button>
+          <div class="topbar-breadcrumb">
+            <a href="../index.html">Academics</a>
+            <span class="breadcrumb-separator"><i class="bi bi-chevron-right"></i></span>
+            <span class="current-page">Internal Marks &amp; Results</span>
+          </div>
+        </div>
+
+        <div class="topbar-right">
+          <!-- Faculty Login Button -->
+          <a href="login.html" class="btn btn-portal-secondary btn-portal-sm d-none d-sm-inline-flex" style="font-size: 0.78rem;" title="Sign in as Faculty member">
+            <i class="bi bi-person-workspace text-primary"></i>
+            <span>Faculty Login</span>
+          </a>
+
+          <div class="topbar-simulation-badge" id="topbarSimTimeBadge" title="Current browser date & time">
+            <i class="bi bi-clock-history text-primary"></i>
+            <span class="sim-label">Live</span>
+          </div>
+
+          <!-- Notification Bell Dropdown -->
+          <div class="dropdown">
+            <button class="notification-btn" id="topbarNotificationBtn" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Notifications">
+              <i class="bi bi-bell"></i>
+              <span class="notification-badge-dot" id="topbarNotificationBadge"></span>
+            </button>
+            <div class="dropdown-menu dropdown-menu-end shadow-lg p-0" style="width: 320px; border-radius: 10px;" aria-labelledby="topbarNotificationBtn">
+              <div class="d-flex align-items-center justify-content-between p-3 border-bottom bg-light">
+                <span class="fw-bold small text-dark"><i class="bi bi-bell me-1 text-primary"></i> Announcements</span>
+                <a href="#" id="notifMarkAllReadBtn" class="small text-primary text-decoration-none">Mark all read</a>
+              </div>
+              <div id="topbarNotificationList" style="max-height: 320px; overflow-y: auto;"></div>
+            </div>
+          </div>
+
+          <!-- Student Profile Dropdown -->
+          <div class="dropdown">
+            <a href="#" class="topbar-user-profile dropdown-toggle text-decoration-none" data-bs-toggle="dropdown" aria-expanded="false">
+              <img src="../assets/images/student_avatar.jpg" id="topbarUserAvatar" class="user-avatar-thumb" alt="Student Profile Avatar"
+                   onerror="this.src='https://ui-avatars.com/api/?name=Aarav+Patel&background=1d4ed8&color=fff'">
+              <div class="user-text-meta">
+                <span class="user-name-label" id="topbarUserName">Aarav Patel</span>
+                <span class="user-role-label" id="topbarUserRole">ID: 0827CS231048</span>
+              </div>
+            </a>
+            <ul class="dropdown-menu dropdown-menu-end shadow-sm">
+              <li><h6 class="dropdown-header">Student Account (Demo)</h6></li>
+              <li>
+                <a class="dropdown-item" href="#" id="menuViewProfileBtn">
+                  <i class="bi bi-person-badge me-2 text-primary"></i>View Academic Profile
+                </a>
+              </li>
+              <li><hr class="dropdown-divider"></li>
+              <li>
+                <a class="dropdown-item text-danger" href="#" id="menuDemoLogoutBtn">
+                  <i class="bi bi-box-arrow-right me-2"></i>Demo Logout
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </header>
+
+      <!-- Main Page Content -->
+      <div class="page-container">
+        <!-- Page Header -->
+        <div class="page-header">
+          <div>
+            <h1 class="page-title">Internal Marks &amp; Assessment Results</h1>
+            <p class="page-subtitle">Mid-term assessments, continuous evaluations, laboratory vipers &amp; attainment rubrics</p>
+          </div>
+          <div class="page-actions">
+            <button type="button" class="btn btn-portal-secondary btn-portal-sm" id="resultsPrintBtn">
+              <i class="bi bi-printer me-1"></i> Print Result Transcript
+            </button>
+          </div>
+        </div>
+
+        <!-- Four Summary Cards -->
+        <section class="row g-3 mb-4" aria-label="Academic Performance Summary">
+          <div class="col-12 col-sm-6 col-xl-3">
+            <div class="stat-card">
+              <div class="stat-header">
+                <span class="stat-label">Average Marks</span>
+                <div class="stat-icon-wrapper stat-icon-blue">
+                  <i class="bi bi-award-fill"></i>
+                </div>
+              </div>
+              <div class="stat-value" id="resSummaryAvg">84.67%</div>
+              <div class="stat-subtext" id="resSummaryTotalMarks">508 / 600 Total Points</div>
+            </div>
+          </div>
+
+          <div class="col-12 col-sm-6 col-xl-3">
+            <div class="stat-card">
+              <div class="stat-header">
+                <span class="stat-label">Evaluated Subjects</span>
+                <div class="stat-icon-wrapper stat-icon-indigo">
+                  <i class="bi bi-journal-check"></i>
+                </div>
+              </div>
+              <div class="stat-value" id="resSummaryCount">6</div>
+              <div class="stat-subtext">All Semester 5 Modules</div>
+            </div>
+          </div>
+
+          <div class="col-12 col-sm-6 col-xl-3">
+            <div class="stat-card">
+              <div class="stat-header">
+                <span class="stat-label">Highest-Scoring Subject</span>
+                <div class="stat-icon-wrapper stat-icon-emerald">
+                  <i class="bi bi-trophy-fill"></i>
+                </div>
+              </div>
+              <div class="stat-subtext mt-1" id="resSummaryHighest">
+                <div class="fw-bold text-success">CS501: 91.0%</div>
+                <div class="text-muted small text-truncate">Advanced DBMS (Grade: A+)</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-12 col-sm-6 col-xl-3">
+            <div class="stat-card">
+              <div class="stat-header">
+                <span class="stat-label">Lowest-Scoring Subject</span>
+                <div class="stat-icon-wrapper stat-icon-amber">
+                  <i class="bi bi-graph-down"></i>
+                </div>
+              </div>
+              <div class="stat-subtext mt-1" id="resSummaryLowest">
+                <div class="fw-bold text-secondary">CS503: 71.0%</div>
+                <div class="text-muted small text-truncate">Algorithms (Grade: B+)</div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Marks Distribution Visualization Chart -->
+        <section class="portal-card mb-4">
+          <div class="portal-card-header">
+            <h2 class="portal-card-title">
+              <i class="bi bi-bar-chart-fill"></i>
+              Comparative Subject Attainment Distribution
+            </h2>
+            <span class="text-muted small">Standardized to 100% scale</span>
+          </div>
+          <div class="portal-card-body">
+            <div class="chart-container-wrap" style="height: 240px;">
+              <canvas id="resultsBarChart" aria-label="Subject marks attainment bar chart"></canvas>
+            </div>
+          </div>
+        </section>
+
+        <!-- Filter Toolbar -->
+        <div class="filter-toolbar">
+          <div class="filter-group-left">
+            <!-- Search -->
+            <div class="search-input-wrap">
+              <i class="bi bi-search search-icon"></i>
+              <input type="text" id="resultsSearchInput" class="search-input" placeholder="Search by subject code or title...">
+              <button type="button" id="resultsClearSearchBtn" class="clear-search-btn" aria-label="Clear search">
+                <i class="bi bi-x"></i>
+              </button>
+            </div>
+
+            <!-- Performance Category Filter -->
+            <select class="filter-select" id="resultsCategorySelect" aria-label="Filter by performance category">
+              <option value="all">All Performance Categories</option>
+              <option value="Distinction">Distinction (&ge; 90%)</option>
+              <option value="Very Good">Very Good (80–89%)</option>
+              <option value="Good">Good (70–79%)</option>
+            </select>
+
+            <!-- Sort Select -->
+            <select class="filter-select" id="resultsSortSelect" aria-label="Sort results table">
+              <option value="percentage_desc">Sort: Highest Marks First</option>
+              <option value="percentage_asc">Sort: Lowest Marks First</option>
+              <option value="code_asc">Sort: Subject Code</option>
+              <option value="name_asc">Sort: Subject Name</option>
+            </select>
+
+            <!-- Reset Filters -->
+            <button type="button" class="btn btn-portal-secondary btn-portal-sm" id="resultsResetBtn">
+              <i class="bi bi-arrow-counterclockwise me-1"></i> Reset
+            </button>
+          </div>
+
+          <div class="filter-group-right">
+            <span class="status-badge badge-neutral-subtle font-mono-num" id="resultsRecordCount">6 Subjects</span>
+          </div>
+        </div>
+
+        <!-- Marks Data Table Card -->
+        <div class="portal-card">
+          <div class="portal-card-header">
+            <h2 class="portal-card-title">
+              <i class="bi bi-table"></i>
+              Continuous Internal Assessment Breakdown
+            </h2>
+            <span class="text-muted small">Maximum Marks Indicated Per Component</span>
+          </div>
+          <div class="portal-card-body p-0">
+            <div class="table-responsive">
+              <table class="portal-table table-hover mb-0">
+                <thead>
+                  <tr>
+                    <th style="width: 90px;">Code</th>
+                    <th>Subject Description</th>
+                    <th style="width: 100px;" class="text-num-right">Test 1</th>
+                    <th style="width: 100px;" class="text-num-right">Test 2</th>
+                    <th style="width: 110px;" class="text-num-right">Assignment</th>
+                    <th style="width: 110px;" class="text-num-right">Practical/Viva</th>
+                    <th style="width: 110px;" class="text-num-right">Total Marks</th>
+                    <th style="width: 100px;" class="text-num-right">Percentage</th>
+                    <th style="width: 75px;" class="text-center">Grade</th>
+                    <th style="width: 125px;">Category</th>
+                    <th style="width: 100px;" class="text-end">Scorecard</th>
+                  </tr>
+                </thead>
+                <tbody id="resultsTableBody">
+                  <!-- Populated dynamically -->
+                </tbody>
+              </table>
+            </div>
+
+            <!-- Empty State Box -->
+            <div id="resultsEmptyBox" class="empty-state-box m-3" style="display: none;">
+              <div class="empty-state-icon">
+                <i class="bi bi-search"></i>
+              </div>
+              <h4 class="empty-state-title">No Matching Academic Results</h4>
+              <p class="empty-state-text">
+                No subjects matched your search keywords or performance category.
+              </p>
+              <button type="button" class="btn btn-portal-primary" onclick="document.getElementById('resultsResetBtn').click();">
+                Reset All Filters
+              </button>
+            </div>
+          </div>
+          <div class="portal-card-footer d-flex justify-content-between align-items-center">
+            <span>Assessment maximums conform to department curriculum specifications.</span>
+            <span>All marks are read-only in student interface.</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Footer -->
+      <footer class="app-footer">
+        <div>
+          <strong>Department of Computer Science &amp; Engineering</strong> · Internal Marks Module
+        </div>
+        <div>
+          <span>Frontend Architecture V1.0 · Ready for Teammate Backend Handoff</span>
+        </div>
+      </footer>
+    </main>
+  </div>
+
+  <!-- Toast Container -->
+  <div id="portalToastContainer" class="portal-toast-container" aria-live="polite"></div>
+
+  <!-- Bootstrap 5 CDN Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+  
+  <!-- Portal Client Scripts -->
+  <script src="../js/data.js"></script>
+  <script src="../js/data-service.js"></script>
+  <script src="../js/app.js"></script>
+  <script src="../js/results.js"></script>
+</body>
+</html>

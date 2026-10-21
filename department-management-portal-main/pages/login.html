@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Faculty &amp; Student Login · Department Management Portal</title>
+  <meta name="description" content="Department Management Portal Authentication - Faculty and Student Portal Login.">
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Bootstrap 5 & Bootstrap Icons CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+  
+  <!-- Portal Stylesheets -->
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/dashboard.css">
+  <link rel="stylesheet" href="../css/responsive.css">
+
+  <style>
+    .login-wrapper {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      background: radial-gradient(circle at 10% 20%, rgba(29, 78, 216, 0.05) 0%, rgba(248, 250, 252, 1) 90%);
+      padding: 2rem 1rem;
+    }
+
+    .login-card {
+      width: 100%;
+      max-width: 460px;
+      background-color: var(--surface-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-xl);
+      box-shadow: var(--shadow-elevated);
+      overflow: hidden;
+    }
+
+    .login-header {
+      background: linear-gradient(135deg, #0c1e33 0%, #162f4d 100%);
+      padding: 2rem 1.75rem 1.75rem;
+      color: #ffffff;
+      text-align: center;
+      position: relative;
+    }
+
+    .login-crest {
+      width: 52px;
+      height: 52px;
+      background: linear-gradient(135deg, #1d4ed8, #2563eb);
+      border-radius: var(--radius-md);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.65rem;
+      margin-bottom: 0.85rem;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+    }
+
+    .login-body {
+      padding: 1.75rem;
+    }
+
+    .role-tabs {
+      display: flex;
+      background-color: #f1f5f9;
+      border-radius: var(--radius-md);
+      padding: 4px;
+      margin-bottom: 1.5rem;
+    }
+
+    .role-tab-btn {
+      flex: 1;
+      padding: 0.6rem 0.75rem;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      border: none;
+      background: none;
+      border-radius: var(--radius-sm);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.45rem;
+      transition: all 0.15s ease;
+      cursor: pointer;
+    }
+
+    .role-tab-btn.active {
+      background-color: #ffffff;
+      color: var(--brand-blue);
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.08);
+    }
+
+    .quick-preset-chip {
+      background-color: #f8fafc;
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-sm);
+      padding: 0.35rem 0.65rem;
+      font-size: 0.75rem;
+      font-weight: 500;
+      color: var(--text-main);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      transition: all 0.15s ease;
+    }
+
+    .quick-preset-chip:hover {
+      background-color: #eff6ff;
+      border-color: #bfdbfe;
+      color: var(--brand-blue);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Demo Notice Banner -->
+  <div class="demo-banner">
+    <div>
+      <i class="bi bi-info-circle-fill me-1"></i>
+      <strong>Frontend Demonstration Scope:</strong> Client-side authentication simulation. Prepared for backend API endpoint: <code>POST /api/v1/auth/faculty/login</code>.
+    </div>
+    <div>
+      <a href="../index.html" class="text-decoration-none">
+        <i class="bi bi-arrow-left me-1"></i>Back to Portal
+      </a>
+    </div>
+  </div>
+
+  <div class="login-wrapper">
+    <div class="login-card">
+      <!-- Header Banner -->
+      <div class="login-header">
+        <div class="login-crest">
+          <i class="bi bi-mortarboard-fill"></i>
+        </div>
+        <h1 class="h5 fw-bold mb-1">Department Portal Login</h1>
+        <div class="small text-light opacity-75">Department of Computer Science &amp; Engineering</div>
+      </div>
+
+      <!-- Main Login Body -->
+      <div class="login-body">
+        <!-- Role Switcher Segmented Tabs -->
+        <div class="role-tabs" role="tablist">
+          <button type="button" class="role-tab-btn active" id="tabFacultyBtn" data-target="facultySection">
+            <i class="bi bi-person-workspace"></i> Faculty Login
+          </button>
+          <button type="button" class="role-tab-btn" id="tabStudentBtn" data-target="studentSection">
+            <i class="bi bi-mortarboard"></i> Student Login
+          </button>
+        </div>
+
+        <!-- Feedback Alert Container -->
+        <div id="loginAlertBox" style="display: none;" class="alert alert-danger py-2 px-3 small mb-3"></div>
+
+        <!-- ==========================================
+             SECTION 1: FACULTY LOGIN FORM
+             ========================================== -->
+        <form id="facultyLoginForm" autocomplete="off">
+          <div class="mb-3">
+            <label class="form-label small fw-semibold text-muted">Faculty Email or Department ID</label>
+            <div class="input-group">
+              <span class="input-group-text bg-light border-end-0 text-muted"><i class="bi bi-envelope"></i></span>
+              <input type="text" id="facultyEmailInput" class="form-control border-start-0 ps-0" 
+                     placeholder="e.g. s.sharma@eng.university.edu" value="s.sharma@eng.university.edu" required>
+            </div>
+            <div class="form-text" style="font-size: 0.72rem;">Department institutional email address.</div>
+          </div>
+
+          <div class="mb-3">
+            <div class="d-flex justify-content-between align-items-center mb-1">
+              <label class="form-label small fw-semibold text-muted mb-0">Portal Password</label>
+              <a href="#" class="small text-primary text-decoration-none" id="forgotPasswordBtn">Reset (Demo)</a>
+            </div>
+            <div class="input-group">
+              <span class="input-group-text bg-light border-end-0 text-muted"><i class="bi bi-lock"></i></span>
+              <input type="password" id="facultyPasswordInput" class="form-control border-start-0 border-end-0 ps-0" 
+                     placeholder="Enter your password" value="faculty123" required>
+              <button type="button" class="btn btn-outline-secondary border-start-0" id="toggleFacultyPwdBtn" aria-label="Toggle password visibility">
+                <i class="bi bi-eye" id="toggleFacultyPwdIcon"></i>
+              </button>
+            </div>
+          </div>
+
+          <div class="form-check mb-3">
+            <input class="form-check-input" type="checkbox" id="facultyRememberMe" checked>
+            <label class="form-check-label small text-muted" for="facultyRememberMe">
+              Remember faculty credentials on this workstation
+            </label>
+          </div>
+
+          <button type="submit" class="btn btn-portal-primary w-100 py-2 justify-content-center" id="submitFacultyBtn">
+            <i class="bi bi-box-arrow-in-right me-1"></i> Sign In to Faculty Portal
+          </button>
+
+          <!-- 1-Click Quick Demo Presets -->
+          <div class="mt-4 pt-3 border-top">
+            <span class="text-muted small d-block mb-2 fw-semibold">
+              <i class="bi bi-lightning-charge-fill text-warning me-1"></i>One-Click Demo Faculty Presets:
+            </span>
+            <div class="d-flex flex-wrap gap-2">
+              <button type="button" class="quick-preset-chip" data-email="s.sharma@eng.university.edu" data-name="Dr. Sunita Sharma (HOD)">
+                <i class="bi bi-person-badge text-primary"></i> Dr. Sunita Sharma (HOD)
+              </button>
+              <button type="button" class="quick-preset-chip" data-email="d.chen@eng.university.edu" data-name="Prof. David Chen">
+                <i class="bi bi-person-badge text-primary"></i> Prof. David Chen
+              </button>
+              <button type="button" class="quick-preset-chip" data-email="m.vance@eng.university.edu" data-name="Prof. Marcus Vance">
+                <i class="bi bi-person-badge text-primary"></i> Prof. Marcus Vance
+              </button>
+            </div>
+          </div>
+        </form>
+
+        <!-- ==========================================
+             SECTION 2: STUDENT LOGIN FORM
+             ========================================== -->
+        <form id="studentLoginForm" style="display: none;" autocomplete="off">
+          <div class="mb-3">
+            <label class="form-label small fw-semibold text-muted">Enrollment / University ID</label>
+            <div class="input-group">
+              <span class="input-group-text bg-light border-end-0 text-muted"><i class="bi bi-card-heading"></i></span>
+              <input type="text" id="studentIdInput" class="form-control border-start-0 ps-0" 
+                     placeholder="e.g. 0827CS231048" value="0827CS231048" required>
+            </div>
+            <div class="form-text" style="font-size: 0.72rem;">Student registration number.</div>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label small fw-semibold text-muted mb-1">Student Password</label>
+            <div class="input-group">
+              <span class="input-group-text bg-light border-end-0 text-muted"><i class="bi bi-lock"></i></span>
+              <input type="password" id="studentPasswordInput" class="form-control border-start-0 border-end-0 ps-0" 
+                     placeholder="Enter your student password" value="student123" required>
+              <button type="button" class="btn btn-outline-secondary border-start-0" id="toggleStudentPwdBtn" aria-label="Toggle password visibility">
+                <i class="bi bi-eye" id="toggleStudentPwdIcon"></i>
+              </button>
+            </div>
+          </div>
+
+          <div class="form-check mb-3">
+            <input class="form-check-input" type="checkbox" id="studentRememberMe" checked>
+            <label class="form-check-label small text-muted" for="studentRememberMe">
+              Keep student session active
+            </label>
+          </div>
+
+          <button type="submit" class="btn btn-portal-primary w-100 py-2 justify-content-center" id="submitStudentBtn">
+            <i class="bi bi-box-arrow-in-right me-1"></i> Sign In to Student Portal
+          </button>
+
+          <!-- 1-Click Quick Demo Presets -->
+          <div class="mt-4 pt-3 border-top">
+            <span class="text-muted small d-block mb-2 fw-semibold">
+              <i class="bi bi-lightning-charge-fill text-warning me-1"></i>One-Click Student Preset:
+            </span>
+            <div class="d-flex flex-wrap gap-2">
+              <button type="button" class="quick-preset-chip" id="studentPresetAarav">
+                <i class="bi bi-person-badge text-primary"></i> Aarav Patel (0827CS231048)
+              </button>
+            </div>
+          </div>
+        </form>
+
+        <!-- Guest link -->
+        <div class="text-center mt-4 pt-3 border-top">
+          <a href="../index.html" class="text-muted small text-decoration-none">
+            <i class="bi bi-arrow-left-circle me-1"></i> Return to Portal as Guest / Default View
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Security disclaimer -->
+    <div class="text-muted text-center mt-3 small" style="max-width: 460px; font-size: 0.75rem;">
+      <i class="bi bi-shield-check text-success me-1"></i>
+      Demonstration Portal Authentication. Production credentials and session tokens are managed independently by the backend engineer via secure LDAP / OAuth / database protocols.
+    </div>
+  </div>
+
+  <!-- Toast Container -->
+  <div id="portalToastContainer" class="portal-toast-container" aria-live="polite"></div>
+
+  <!-- Bootstrap 5 CDN Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  
+  <!-- Portal Client Scripts -->
+  <script src="../js/data.js"></script>
+  <script src="../js/data-service.js"></script>
+  <script src="../js/app.js"></script>
+
+  <!-- Login Page Controller Script -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const tabFaculty = document.getElementById('tabFacultyBtn');
+      const tabStudent = document.getElementById('tabStudentBtn');
+      const facultyForm = document.getElementById('facultyLoginForm');
+      const studentForm = document.getElementById('studentLoginForm');
+      const alertBox = document.getElementById('loginAlertBox');
+
+      // Check URL params for role (e.g. ?role=student)
+      const urlParams = new URLSearchParams(window.location.search);
+      if (urlParams.get('role') === 'student') {
+        switchToTab('student');
+      }
+
+      function switchToTab(role) {
+        if (role === 'faculty') {
+          tabFaculty.classList.add('active');
+          tabStudent.classList.remove('active');
+          facultyForm.style.display = 'block';
+          studentForm.style.display = 'none';
+          alertBox.style.display = 'none';
+        } else {
+          tabStudent.classList.add('active');
+          tabFaculty.classList.remove('active');
+          studentForm.style.display = 'block';
+          facultyForm.style.display = 'none';
+          alertBox.style.display = 'none';
+        }
+      }
+
+      tabFaculty.addEventListener('click', () => switchToTab('faculty'));
+      tabStudent.addEventListener('click', () => switchToTab('student'));
+
+      // Toggle Faculty Password Visibility
+      const toggleFacultyPwdBtn = document.getElementById('toggleFacultyPwdBtn');
+      const facultyPwdInput = document.getElementById('facultyPasswordInput');
+      const facultyPwdIcon = document.getElementById('toggleFacultyPwdIcon');
+      if (toggleFacultyPwdBtn) {
+        toggleFacultyPwdBtn.addEventListener('click', () => {
+          const isPwd = facultyPwdInput.type === 'password';
+          facultyPwdInput.type = isPwd ? 'text' : 'password';
+          facultyPwdIcon.className = isPwd ? 'bi bi-eye-slash' : 'bi bi-eye';
+        });
+      }
+
+      // Toggle Student Password Visibility
+      const toggleStudentPwdBtn = document.getElementById('toggleStudentPwdBtn');
+      const studentPwdInput = document.getElementById('studentPasswordInput');
+      const studentPwdIcon = document.getElementById('toggleStudentPwdIcon');
+      if (toggleStudentPwdBtn) {
+        toggleStudentPwdBtn.addEventListener('click', () => {
+          const isPwd = studentPwdInput.type === 'password';
+          studentPwdInput.type = isPwd ? 'text' : 'password';
+          studentPwdIcon.className = isPwd ? 'bi bi-eye-slash' : 'bi bi-eye';
+        });
+      }
+
+      // Quick Faculty Demo Presets
+      document.querySelectorAll('.quick-preset-chip[data-email]').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const email = btn.getAttribute('data-email');
+          document.getElementById('facultyEmailInput').value = email;
+          document.getElementById('facultyPasswordInput').value = 'faculty123';
+          window.portalShowToast('Preset Applied', `Loaded credentials for ${btn.getAttribute('data-name')}.`, 'info');
+        });
+      });
+
+      // Quick Student Demo Preset
+      const studentPresetBtn = document.getElementById('studentPresetAarav');
+      if (studentPresetBtn) {
+        studentPresetBtn.addEventListener('click', () => {
+          document.getElementById('studentIdInput').value = '0827CS231048';
+          document.getElementById('studentPasswordInput').value = 'student123';
+          window.portalShowToast('Preset Applied', 'Loaded credentials for Aarav Patel.', 'info');
+        });
+      }
+
+      // Faculty Form Submit Handler
+      facultyForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const email = document.getElementById('facultyEmailInput').value.trim();
+        const pwd = document.getElementById('facultyPasswordInput').value;
+
+        const res = await window.dataService.loginFaculty(email, pwd);
+        if (res.success) {
+          window.portalShowToast(
+            'Faculty Login Successful',
+            `Welcome back, ${res.user.fullName}! Entering faculty portal...`,
+            'success'
+          );
+          setTimeout(() => {
+            window.location.href = '../index.html?role=faculty';
+          }, 600);
+        } else {
+          alertBox.textContent = res.error || 'Authentication failed. Please verify credentials.';
+          alertBox.style.display = 'block';
+        }
+      });
+
+      // Student Form Submit Handler
+      studentForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const id = document.getElementById('studentIdInput').value.trim();
+        const pwd = document.getElementById('studentPasswordInput').value;
+
+        const res = await window.dataService.loginStudent(id, pwd);
+        if (res.success) {
+          window.portalShowToast(
+            'Student Login Successful',
+            `Welcome, ${res.user.fullName}! Entering student portal...`,
+            'success'
+          );
+          setTimeout(() => {
+            window.location.href = '../index.html?role=student';
+          }, 600);
+        }
+      });
+
+      // Forgot password mock
+      const forgotBtn = document.getElementById('forgotPasswordBtn');
+      if (forgotBtn) {
+        forgotBtn.addEventListener('click', (e) => {
+          e.preventDefault();
+          window.portalShowToast('Password Reset', 'In production, password reset tokens are dispatched to institutional mail by the backend service.', 'info');
+        });
+      }
+    });
+  </script>
+</body>
+</html>

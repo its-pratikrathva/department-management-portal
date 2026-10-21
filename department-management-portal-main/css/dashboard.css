@@ -1,0 +1,319 @@
+/**
+ * Department Management Portal - Dashboard Styles
+ */
+
+/* Profile Summary Banner */
+.student-banner-card {
+  background: linear-gradient(135deg, #0c1e33 0%, #162f4d 100%);
+  border-radius: var(--radius-lg);
+  color: #ffffff;
+  padding: 1.5rem 1.75rem;
+  margin-bottom: 1.5rem;
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: var(--shadow-card);
+}
+
+.student-banner-card::after {
+  content: '';
+  position: absolute;
+  top: -40px;
+  right: -40px;
+  width: 240px;
+  height: 240px;
+  background: radial-gradient(circle, rgba(37, 99, 235, 0.15) 0%, rgba(37, 99, 235, 0) 70%);
+  pointer-events: none;
+}
+
+.student-banner-content {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  position: relative;
+  z-index: 1;
+}
+
+.student-profile-left {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+}
+
+.student-banner-avatar {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  border: 3px solid rgba(255, 255, 255, 0.2);
+  object-fit: cover;
+  background-color: #1e3a8a;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.25);
+}
+
+.student-details-wrap {
+  display: flex;
+  flex-direction: column;
+}
+
+.student-banner-name {
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin: 0 0 0.25rem;
+  letter-spacing: -0.01em;
+}
+
+.student-banner-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.825rem;
+  color: #94a3b8;
+}
+
+.student-banner-meta .meta-item {
+  color: #cbd5e1;
+}
+
+.student-banner-right {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.banner-metric-box {
+  display: flex;
+  flex-direction: column;
+  padding: 0.5rem 1rem;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: var(--radius-md);
+  min-width: 110px;
+}
+
+.banner-metric-label {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  color: #94a3b8;
+  letter-spacing: 0.05em;
+  font-weight: 600;
+}
+
+.banner-metric-value {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin-top: 0.2rem;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Today's Schedule Timeline List */
+.today-schedule-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.schedule-item-card {
+  padding: 0.85rem 1rem;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  background-color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  transition: all 0.15s ease;
+}
+
+.schedule-item-card:hover {
+  border-color: var(--border-strong);
+  background-color: var(--surface-hover);
+}
+
+.schedule-item-card.is-ongoing {
+  border-color: #86efac;
+  background-color: #f0fdf4;
+}
+
+.schedule-item-card.is-upcoming {
+  border-left: 3px solid var(--brand-blue);
+}
+
+.schedule-item-card.is-completed {
+  opacity: 0.75;
+  background-color: #fafbfc;
+}
+
+.schedule-time-badge {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  min-width: 110px;
+}
+
+.schedule-time-text {
+  font-size: 0.825rem;
+  font-weight: 600;
+  color: var(--text-main);
+  font-variant-numeric: tabular-nums;
+}
+
+.schedule-duration {
+  font-size: 0.7rem;
+  color: var(--text-muted);
+}
+
+.schedule-details {
+  flex: 1;
+  min-width: 0;
+}
+
+.schedule-subject {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--text-main);
+  margin-bottom: 0.15rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.schedule-location {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+/* Announcements Stream */
+.announcement-stream {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.announcement-item {
+  padding: 0.85rem 1rem;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  background-color: #ffffff;
+  transition: all 0.15s ease;
+  cursor: pointer;
+}
+
+.announcement-item:hover {
+  border-color: var(--border-strong);
+  background-color: var(--surface-hover);
+}
+
+.announcement-item.unread {
+  border-left: 3px solid var(--brand-blue);
+  background-color: #fafcff;
+}
+
+.announcement-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin-bottom: 0.35rem;
+}
+
+.announcement-title {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--text-main);
+  margin: 0;
+  line-height: 1.3;
+}
+
+.announcement-date {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+
+.announcement-summary {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  margin: 0;
+  line-height: 1.4;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Quick Action Cards Grid */
+.quick-actions-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.quick-action-card {
+  padding: 1.15rem;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  background-color: #ffffff;
+  text-decoration: none;
+  color: var(--text-main);
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  transition: all 0.15s ease;
+}
+
+.quick-action-card:hover {
+  border-color: var(--brand-blue);
+  box-shadow: var(--shadow-subtle);
+  transform: translateY(-2px);
+  color: var(--brand-blue);
+}
+
+.quick-action-icon {
+  width: 42px;
+  height: 42px;
+  border-radius: var(--radius-sm);
+  background-color: #eff6ff;
+  color: var(--brand-blue);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+  flex-shrink: 0;
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.quick-action-card:hover .quick-action-icon {
+  background-color: var(--brand-blue);
+  color: #ffffff;
+}
+
+.quick-action-label {
+  font-size: 0.875rem;
+  font-weight: 600;
+  margin: 0;
+  line-height: 1.2;
+}
+
+.quick-action-desc {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  margin: 0.2rem 0 0;
+}
+
+/* Chart Canvas Wrapper */
+.chart-container-wrap {
+  position: relative;
+  width: 100%;
+  height: 280px;
+}

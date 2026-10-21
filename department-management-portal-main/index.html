@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student Dashboard · Department Management Portal</title>
+  <meta name="description" content="College Department Management Portal - Student Dashboard for academic tracking, attendance, smart timetable, and marks.">
+  <meta property="og:title" content="Department Management Portal · Student Dashboard">
+  <meta property="og:description" content="College Department Management Portal - Student Dashboard for academic tracking, attendance, smart timetable, and marks.">
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Bootstrap 5 & Bootstrap Icons CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+  
+  <!-- Portal Stylesheets -->
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/dashboard.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+
+  <!-- Demo Notice Banner -->
+  <div class="demo-banner">
+    <div>
+      <i class="bi bi-info-circle-fill me-1"></i>
+      <strong>Frontend Demonstration Scope:</strong> All data is fictional sample content. Architecture is prepared for your teammate's backend integration.
+    </div>
+    <div>
+      <span class="d-none d-md-inline text-muted me-2">Threshold: 75%</span>
+      <a href="#" id="menuSettingsBtn" class="text-decoration-none">
+        <i class="bi bi-sliders me-1"></i>Demo Settings
+      </a>
+    </div>
+  </div>
+
+  <div class="app-layout">
+    <!-- Sidebar Navigation -->
+    <aside class="app-sidebar" aria-label="Main Navigation">
+      <div class="sidebar-header">
+        <div class="department-crest">
+          <i class="bi bi-mortarboard-fill"></i>
+        </div>
+        <div class="brand-text-lockup">
+          <span class="brand-title">Dept Portal</span>
+          <span class="brand-dept">Computer Science & Eng.</span>
+        </div>
+      </div>
+
+      <nav class="sidebar-nav">
+        <div class="sidebar-category-label">Academic Portal</div>
+        <a href="index.html" class="sidebar-nav-link active">
+          <i class="bi bi-grid-1x2-fill"></i>
+          <span>Dashboard</span>
+        </a>
+        <a href="pages/timetable.html" class="sidebar-nav-link">
+          <i class="bi bi-calendar3"></i>
+          <span>Smart Timetable</span>
+        </a>
+        <a href="pages/attendance.html" class="sidebar-nav-link">
+          <i class="bi bi-check2-square"></i>
+          <span>Attendance Tracker</span>
+        </a>
+        <a href="pages/results.html" class="sidebar-nav-link">
+          <i class="bi bi-bar-chart-line"></i>
+          <span>Internal Marks & Results</span>
+        </a>
+        <a href="pages/faculty.html" class="sidebar-nav-link">
+          <i class="bi bi-person-lines-fill"></i>
+          <span>Faculty & Directory</span>
+        </a>
+
+        <div class="sidebar-category-label">Quick Links</div>
+        <a href="pages/timetable.html?view=today" class="sidebar-nav-link">
+          <i class="bi bi-clock-history"></i>
+          <span>Today's Classes</span>
+        </a>
+        <a href="pages/attendance.html?filter=below" class="sidebar-nav-link">
+          <i class="bi bi-exclamation-triangle"></i>
+          <span>Low Attendance Alert</span>
+        <div class="sidebar-category-label">Access &amp; Roles</div>
+        <a href="pages/login.html" class="sidebar-nav-link">
+          <i class="bi bi-person-workspace"></i>
+          <span>Faculty Login</span>
+        </a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="fw-semibold text-white mb-1">Academic Year 2026–27</div>
+        <div class="text-muted small">Semester 5 · Undergrad</div>
+      </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="app-main">
+      <!-- Topbar Header -->
+      <header class="app-topbar">
+        <div class="topbar-left">
+          <button type="button" class="sidebar-toggle-btn" aria-label="Toggle navigation drawer">
+            <i class="bi bi-list"></i>
+          </button>
+          <div class="topbar-breadcrumb">
+            <span class="text-muted">Academics</span>
+            <span class="breadcrumb-separator"><i class="bi bi-chevron-right"></i></span>
+            <span class="current-page">Student Dashboard</span>
+          </div>
+        </div>
+
+        <div class="topbar-right">
+          <!-- Faculty Login Button -->
+          <a href="pages/login.html" class="btn btn-portal-secondary btn-portal-sm d-none d-sm-inline-flex" style="font-size: 0.78rem;" title="Sign in as Faculty member">
+            <i class="bi bi-person-workspace text-primary"></i>
+            <span>Faculty Login</span>
+          </a>
+
+          <!-- Time indicator badge -->
+          <div class="topbar-simulation-badge" id="topbarSimTimeBadge" title="Current browser date & time">
+            <i class="bi bi-clock-history text-primary"></i>
+            <span class="sim-label">Live</span>
+          </div>
+
+          <!-- Notification Bell Dropdown -->
+          <div class="dropdown">
+            <button class="notification-btn" id="topbarNotificationBtn" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Notifications">
+              <i class="bi bi-bell"></i>
+              <span class="notification-badge-dot" id="topbarNotificationBadge"></span>
+            </button>
+            <div class="dropdown-menu dropdown-menu-end shadow-lg p-0" style="width: 320px; border-radius: 10px;" aria-labelledby="topbarNotificationBtn">
+              <div class="d-flex align-items-center justify-content-between p-3 border-bottom bg-light">
+                <span class="fw-bold small text-dark"><i class="bi bi-bell me-1 text-primary"></i> Announcements</span>
+                <a href="#" id="notifMarkAllReadBtn" class="small text-primary text-decoration-none">Mark all read</a>
+              </div>
+              <div id="topbarNotificationList" style="max-height: 320px; overflow-y: auto;">
+                <!-- Populated dynamically -->
+              </div>
+              <div class="p-2 text-center border-top bg-light">
+                <a href="#dashAnnouncementsContainer" class="small text-muted text-decoration-none">View all in page</a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Student Profile Dropdown -->
+          <div class="dropdown">
+            <a href="#" class="topbar-user-profile dropdown-toggle text-decoration-none" data-bs-toggle="dropdown" aria-expanded="false">
+              <img src="assets/images/student_avatar.jpg" id="topbarUserAvatar" class="user-avatar-thumb" alt="Student Profile Avatar"
+                   onerror="this.src='https://ui-avatars.com/api/?name=Aarav+Patel&background=1d4ed8&color=fff'">
+              <div class="user-text-meta">
+                <span class="user-name-label" id="topbarUserName">Aarav Patel</span>
+                <span class="user-role-label" id="topbarUserRole">ID: 0827CS231048</span>
+              </div>
+            </a>
+            <ul class="dropdown-menu dropdown-menu-end shadow-sm">
+              <li><h6 class="dropdown-header">Student Account (Demo)</h6></li>
+              <li>
+                <a class="dropdown-item" href="#" id="menuViewProfileBtn">
+                  <i class="bi bi-person-badge me-2 text-primary"></i>View Academic Profile
+                </a>
+              </li>
+              <li>
+                <a class="dropdown-item" href="pages/results.html">
+                  <i class="bi bi-journal-check me-2 text-success"></i>My Transcripts & Marks
+                </a>
+              </li>
+              <li><hr class="dropdown-divider"></li>
+              <li>
+                <a class="dropdown-item text-danger" href="#" id="menuDemoLogoutBtn">
+                  <i class="bi bi-box-arrow-right me-2"></i>Demo Logout
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </header>
+
+      <!-- Main Page Content -->
+      <div class="page-container">
+        <!-- Student Profile Summary Banner -->
+        <section class="student-banner-card" aria-label="Student Profile Banner">
+          <div class="student-banner-content">
+            <div class="student-profile-left">
+              <img src="assets/images/student_avatar.jpg" id="dashStudentAvatar" class="student-banner-avatar" alt="Aarav Patel"
+                   onerror="this.src='https://ui-avatars.com/api/?name=Aarav+Patel&background=1d4ed8&color=fff'">
+              <div class="student-details-wrap">
+                <h1 class="student-banner-name" id="dashStudentName">Aarav Patel</h1>
+                <div class="student-banner-meta">
+                  <span class="meta-item" id="dashStudentDept">Computer Science & Engineering</span>
+                  <span class="meta-divider">·</span>
+                  <span class="meta-item tabular-nums" id="dashStudentRoll">Roll No: 48 (0827CS231048)</span>
+                  <span class="meta-divider">·</span>
+                  <span class="meta-item" id="dashStudentSem">Semester 5 · Sec A · 2026–2027</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="student-banner-right">
+              <div class="banner-metric-box">
+                <span class="banner-metric-label">Cumulative GPA</span>
+                <span class="banner-metric-value text-warning" id="dashStudentCgpa">8.74 / 10</span>
+              </div>
+              <div class="banner-metric-box">
+                <span class="banner-metric-label">Enrolled Status</span>
+                <span class="banner-metric-value" style="font-size: 0.95rem; font-weight: 600;" id="dashStudentCredits">Active Full-Time</span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Four Key Statistics Cards -->
+        <section class="row g-3 mb-4" aria-label="Key Performance Statistics">
+          <!-- Stat 1: Total Subjects -->
+          <div class="col-12 col-sm-6 col-xl-3">
+            <div class="stat-card">
+              <div class="stat-header">
+                <span class="stat-label">Total Subjects</span>
+                <div class="stat-icon-wrapper stat-icon-blue">
+                  <i class="bi bi-book-half"></i>
+                </div>
+              </div>
+              <div class="stat-value" id="statTotalSubjects">6</div>
+              <div class="stat-subtext">
+                <span>Semester 5 Program Modules</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Stat 2: Overall Attendance -->
+          <div class="col-12 col-sm-6 col-xl-3">
+            <div class="stat-card">
+              <div class="stat-header">
+                <span class="stat-label">Overall Attendance</span>
+                <div class="stat-icon-wrapper stat-icon-emerald">
+                  <i class="bi bi-check2-circle"></i>
+                </div>
+              </div>
+              <div class="stat-value" id="statAttendancePct">83.08%</div>
+              <div class="stat-subtext" id="statAttendanceSubtext">
+                <span class="text-success fw-semibold"><i class="bi bi-check-circle me-1"></i>Above 75% benchmark</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Stat 3: Average Internal Marks -->
+          <div class="col-12 col-sm-6 col-xl-3">
+            <div class="stat-card">
+              <div class="stat-header">
+                <span class="stat-label">Average Internal Marks</span>
+                <div class="stat-icon-wrapper stat-icon-indigo">
+                  <i class="bi bi-award"></i>
+                </div>
+              </div>
+              <div class="stat-value" id="statAvgMarks">84.67%</div>
+              <div class="stat-subtext" id="statMarksSubtext">
+                <span class="text-muted tabular-nums">508 / 600 total marks</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Stat 4: Today's Scheduled Lectures -->
+          <div class="col-12 col-sm-6 col-xl-3">
+            <div class="stat-card">
+              <div class="stat-header">
+                <span class="stat-label">Today's Lectures</span>
+                <div class="stat-icon-wrapper stat-icon-amber">
+                  <i class="bi bi-calendar-event"></i>
+                </div>
+              </div>
+              <div class="stat-value" id="statTodayLectures">5</div>
+              <div class="stat-subtext" id="statTodaySubtext">
+                <span>Today's scheduled classes</span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Charts Grid (Attendance vs Marks) -->
+        <section class="row g-4 mb-4" aria-label="Visual Analytics">
+          <!-- Subject-wise Attendance Chart -->
+          <div class="col-12 col-lg-6">
+            <div class="portal-card h-100">
+              <div class="portal-card-header">
+                <h2 class="portal-card-title">
+                  <i class="bi bi-pie-chart-fill"></i>
+                  Subject-Wise Attendance Percentage
+                </h2>
+                <div class="portal-card-actions">
+                  <a href="pages/attendance.html" class="btn btn-portal-secondary btn-portal-sm">
+                    Detailed Tracker <i class="bi bi-arrow-right ms-1"></i>
+                  </a>
+                </div>
+              </div>
+              <div class="portal-card-body">
+                <div class="chart-container-wrap">
+                  <canvas id="dashAttendanceChart" aria-label="Subject attendance bar chart"></canvas>
+                </div>
+                <div class="d-flex justify-content-center gap-4 mt-3 pt-2 border-top text-muted small">
+                  <div class="d-flex align-items-center gap-2">
+                    <span style="display:inline-block; width:10px; height:10px; background:#1d4ed8; border-radius:2px;"></span>
+                    <span>&ge; 80% (Good)</span>
+                  </div>
+                  <div class="d-flex align-items-center gap-2">
+                    <span style="display:inline-block; width:10px; height:10px; background:#d97706; border-radius:2px;"></span>
+                    <span>75–79% (Needs Attention)</span>
+                  </div>
+                  <div class="d-flex align-items-center gap-2">
+                    <span style="display:inline-block; width:10px; height:10px; background:#dc2626; border-radius:2px;"></span>
+                    <span>&lt; 75% (Below Threshold)</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Academic Performance Chart -->
+          <div class="col-12 col-lg-6">
+            <div class="portal-card h-100">
+              <div class="portal-card-header">
+                <h2 class="portal-card-title">
+                  <i class="bi bi-graph-up-arrow"></i>
+                  Internal Marks Distribution by Subject
+                </h2>
+                <div class="portal-card-actions">
+                  <a href="pages/results.html" class="btn btn-portal-secondary btn-portal-sm">
+                    View Results <i class="bi bi-arrow-right ms-1"></i>
+                  </a>
+                </div>
+              </div>
+              <div class="portal-card-body">
+                <div class="chart-container-wrap">
+                  <canvas id="dashPerformanceChart" aria-label="Subject marks performance chart"></canvas>
+                </div>
+                <div class="d-flex justify-content-between align-items-center mt-3 pt-2 border-top text-muted small">
+                  <span>Evaluation: Tests 1 &amp; 2, Assignments, Labs</span>
+                  <span class="fw-semibold text-dark">Average Score: 84.67%</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Two-Column Section: Today's Timetable & Announcements -->
+        <section class="row g-4 mb-4">
+          <!-- Today's Scheduled Lectures -->
+          <div class="col-12 col-lg-7">
+            <div class="portal-card h-100">
+              <div class="portal-card-header">
+                <h2 class="portal-card-title">
+                  <i class="bi bi-clock-history"></i>
+                  Today's Scheduled Lectures
+                </h2>
+                <div class="portal-card-actions">
+                  <a href="pages/timetable.html" class="btn btn-portal-secondary btn-portal-sm">
+                    Full Weekly Schedule
+                  </a>
+                </div>
+              </div>
+              <div class="portal-card-body">
+                <div class="today-schedule-list" id="dashTodayScheduleContainer">
+                  <!-- Rendered dynamically -->
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Announcements & Notices -->
+          <div class="col-12 col-lg-5">
+            <div class="portal-card h-100">
+              <div class="portal-card-header">
+                <h2 class="portal-card-title">
+                  <i class="bi bi-megaphone-fill"></i>
+                  Department Announcements
+                </h2>
+                <div class="portal-card-actions">
+                  <span class="status-badge badge-neutral-subtle">Recent</span>
+                </div>
+              </div>
+              <div class="portal-card-body">
+                <div class="announcement-stream" id="dashAnnouncementsContainer">
+                  <!-- Rendered dynamically -->
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Quick Actions Grid -->
+        <section class="mb-4">
+          <h3 class="h6 text-muted text-uppercase fw-bold mb-3" style="letter-spacing: 0.05em;">Quick Portal Navigation</h3>
+          <div class="quick-actions-grid">
+            <a href="pages/timetable.html" class="quick-action-card">
+              <div class="quick-action-icon">
+                <i class="bi bi-calendar3"></i>
+              </div>
+              <div>
+                <p class="quick-action-label">Smart Timetable</p>
+                <p class="quick-action-desc">Weekly schedule &amp; lecture status</p>
+              </div>
+            </a>
+            <a href="pages/attendance.html" class="quick-action-card">
+              <div class="quick-action-icon">
+                <i class="bi bi-check2-square"></i>
+              </div>
+              <div>
+                <p class="quick-action-label">Attendance Tracker</p>
+                <p class="quick-action-desc">Check status &amp; required classes</p>
+              </div>
+            </a>
+            <a href="pages/results.html" class="quick-action-card">
+              <div class="quick-action-icon">
+                <i class="bi bi-bar-chart-steps"></i>
+              </div>
+              <div>
+                <p class="quick-action-label">Internal Marks</p>
+                <p class="quick-action-desc">Review test scores &amp; grading</p>
+              </div>
+            </a>
+            <a href="pages/faculty.html" class="quick-action-card">
+              <div class="quick-action-icon">
+                <i class="bi bi-person-badge"></i>
+              </div>
+              <div>
+                <p class="quick-action-label">Faculty Directory</p>
+                <p class="quick-action-desc">Contact professors &amp; mentors</p>
+              </div>
+            </a>
+          </div>
+        </section>
+      </div>
+
+      <!-- Footer -->
+      <footer class="app-footer">
+        <div>
+          <strong>Department of Computer Science &amp; Engineering</strong> · University Academic Portal
+        </div>
+        <div>
+          <span>Frontend Architecture V1.0 · Ready for Teammate Backend Handoff</span>
+        </div>
+      </footer>
+    </main>
+  </div>
+
+  <!-- Toast Container -->
+  <div id="portalToastContainer" class="portal-toast-container" aria-live="polite"></div>
+
+  <!-- Bootstrap 5 & Chart.js CDN Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+  
+  <!-- Portal Client Scripts -->
+  <script src="js/data.js"></script>
+  <script src="js/data-service.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/dashboard.js"></script>
+</body>
+</html>
